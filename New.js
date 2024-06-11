@@ -11,9 +11,11 @@ import {
 } from "react-native";
 import React from "react";
 import Header from "./components/Header";
-import make from "./newmakedata";
+
+import make from "./data/newmakedata";
 import SmallCard from "./components/SmallCard";
-import newcar from "./newcardata";
+
+import newcar from "./data/newcardata";
 import NewCard from "./components/NewCard";
 
 export default function New() {

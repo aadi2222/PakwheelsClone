@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import React from "react";
 import Header from "./components/Header";
-import bikes from "./pw_bikes";
+import bikes from "./data/pw_bikes";
 import Card2 from "./components/Card2";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";

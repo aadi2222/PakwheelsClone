@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
 	View,
 	Text,
@@ -6,23 +7,43 @@ import {
 	Pressable,
 	SafeAreaView,
 } from "react-native";
-import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import SearchBar from "../components/Search.js";
+import cars from "../data/data.js";
 
 const Header = () => {
+	const [clicked, setClicked] = useState(false);
+	const [searchPhrase, setSearchPhrase] = useState("");
 	const navigation = useNavigation();
-	const navigateHandler = (props) => {
-		navigation.navigate(props);
+
+	const navigateHandler = (screen) => {
+		navigation.navigate(screen);
+	};
+	const navigateHandler1 = (screen) => {
+		navigation.navigate(screen, { data: cars });
+	};
+
+	const handleSearch = () => {
+		if (searchPhrase.trim() !== "") {
+			// Filter cars data based on the searchPhrase
+			const filteredData = cars.filter((car) =>
+				car.title.toLowerCase().includes(searchPhrase.toLowerCase())
+			);
+
+			// Navigate to the Listing screen with filtered data
+			navigation.navigate("Listing", { data: filteredData });
+		}
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<Image style={styles.image} source={require("../assets/logo.jpg")} />
+			<Pressable onPress={() => navigateHandler("Used")}>
+				<Image style={styles.image} source={require("../assets/logo.jpg")} />
+			</Pressable>
 			<View style={styles.buttonview}>
 				<Pressable
 					style={styles.button}
-					onPress={() => navigateHandler("Used")}
+					onPress={() => navigateHandler1("Listing")}
 				>
 					<Text style={styles.text}>Used Cars</Text>
 				</Pressable>
@@ -39,7 +60,13 @@ const Header = () => {
 					<Text style={styles.text}>Auto Parts</Text>
 				</Pressable>
 			</View>
-			<SearchBar />
+			<SearchBar
+				clicked={clicked}
+				setClicked={setClicked}
+				searchPhrase={searchPhrase}
+				setSearchPhrase={setSearchPhrase}
+				handleSearch={handleSearch} // Pass the handleSearch function
+			/>
 		</SafeAreaView>
 	);
 };
@@ -68,7 +95,6 @@ const styles = StyleSheet.create({
 	text: {
 		fontSize: 15,
 		lineHeight: 21,
-		// fontWeight: "bold",
 		letterSpacing: 0.25,
 		color: "white",
 	},
